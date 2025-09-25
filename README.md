@@ -1,1 +1,0 @@
-# campus-event-planner-AJ
