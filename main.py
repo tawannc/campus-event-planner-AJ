@@ -12,7 +12,6 @@ def validar_data(data_str: str) -> bool:
 
 def adicionar_evento(lista_eventos: List[Evento], nome: str, data: str, local: str, categoria: str) -> None:
     novo_id = max([ev.get("id", 0) for ev in lista_eventos], default=0) + 1
-    
     evento = {
         "id": novo_id,
         "nome": nome,
@@ -31,6 +30,13 @@ def listar_eventos(lista_eventos: List[Evento]) -> None:
             f"Participou: {status}"
         )
 
+def procurar_evento_por_nome(lista_eventos: List[Evento], nome: str) -> List[Evento]:
+    termo = nome.strip().lower()
+    return [
+        ev for ev in lista_eventos
+        if termo in ev.get("nome", "").lower()
+    ]
+
 def deletar_evento(lista_eventos: List[Evento], id_evento: int) -> bool:
     for i, ev in enumerate(lista_eventos):
         if ev.get("id") == id_evento:
@@ -46,11 +52,12 @@ def display_menu() -> None:
     print("4. Marcar Evento como Participado")
     print("5. Gerar Relatório")
     print("6. Deletar Evento")
+    print("7. Buscar Evento por Nome")
     print("0. Sair")
 
 def get_escolha_do_usuario() -> int:
     escolha = input("\nEscolha uma opção: ")
-    return int(escolha) if escolha in {"0", "1", "2", "3", "4", "5", "6"} else -1
+    return int(escolha) if escolha in {"0", "1", "2", "3", "4", "5", "6", "7"} else -1
 
 def filtrar_eventos_por_categoria(lista_eventos: List[Evento], categoria: str) -> List[Evento]:
     return [
@@ -145,6 +152,17 @@ def _deletar_evento(lista_eventos: List[Evento]) -> None:
         print("[!] ID inválido")
     _pausar()
 
+def _buscar_por_nome(lista_eventos: List[Evento]) -> None:
+    nome = input("\nNome para buscar: ").strip()
+    resultados = procurar_evento_por_nome(lista_eventos, nome)
+
+    print(f"\n== Resultados para: {nome} ==")
+    if not resultados:
+        print("(nenhum evento encontrado)")
+    else:
+        listar_eventos(resultados)
+    _pausar()
+
 def _gerar_relatorio(lista_eventos: List[Evento]) -> None:
     gerar_relatorio(lista_eventos)
     _pausar()
@@ -162,6 +180,7 @@ def main():
         elif opc == 4: _marcar_participado(lista_de_eventos)
         elif opc == 5: _gerar_relatorio(lista_de_eventos)
         elif opc == 6: _deletar_evento(lista_de_eventos)
+        elif opc == 7: _buscar_por_nome(lista_de_eventos)
         elif opc == 0: print("Saindo... Até mais!"); break
         else: print("\n[!] Opção inválida. Tente novamente.")
 
