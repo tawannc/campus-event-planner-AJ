@@ -2,7 +2,7 @@ import datetime
 
 def validar_data(data_str):
     try:
-        datetime.datetime.strptime(data_str, '%Y-%m-%d')
+        datetime.datetime.strptime(data_str, '%d-%m-%Y')
         return True
     except ValueError:
         return False
@@ -12,7 +12,7 @@ def adicionar_evento(lista_eventos, nome, data, local, categoria):
         print("Erro: Todos os campos devem ser preenchidos.")
         return None
     if not validar_data(data):
-        print("Erro: Formato de data inválido. Use AAAA-MM-DD.")
+        print("Erro: Formato de data inválido. Use DD-MM-YYYY.")
         return None
 
     novo_id = lista_eventos[-1]['id'] + 1 if lista_eventos else 1
@@ -69,9 +69,9 @@ if __name__ == "__main__":
     eventos = []
     print("🚀 Iniciando testes...\n")
 
-    adicionar_evento(eventos, "Palestra de Python", "2025-10-20", "Auditório 1", "Tecnologia")
-    adicionar_evento(eventos, "Feira de Startups", "2025-11-05", "Pavilhão", "Negócios")
-    adicionar_evento(eventos, "Workshop de Design", "2025-10-22", "Sala 3", "Tecnologia")
+    adicionar_evento(eventos, "Palestra de Python", "20-10-2025", "Auditório 1", "Tecnologia")
+    adicionar_evento(eventos, "Feira de Startups", "05-11-2025", "Pavilhão", "Negócios")
+    adicionar_evento(eventos, "Workshop de Design", "22-10-2025", "Sala 3", "Tecnologia")
 
     listar_eventos(eventos)
 
@@ -84,7 +84,7 @@ if __name__ == "__main__":
     listar_eventos(eventos)
 
     print("\n--- Adicionando novo evento ---")
-    adicionar_evento(eventos, "Meetup de IA", "2025-12-01", "Online", "Tecnologia")
+    adicionar_evento(eventos, "Meetup de IA", "01-12-2025", "Online", "Tecnologia")
     listar_eventos(eventos)
 
     print("\n--- Buscando por 'tecnologia' ---")
